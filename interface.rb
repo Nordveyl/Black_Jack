@@ -14,6 +14,8 @@ class Interface
     end   
   end 
   
+  private 
+  
   def game_menu_1 
     @game_table = GameTable.new
     if Player.class_variable_get(:@@bank_of_player) == 0
