@@ -1,4 +1,5 @@
 class Diler 
+  include Ace
   attr_accessor :cards_of_diler, :points_of_diler
   
   def initialize 
@@ -19,29 +20,15 @@ class Diler
 
   def first_move_of_diler(cards)
     @@bank_of_diler -= 10
-    self.take_card_diler(cards)
-    self.take_card_diler(cards)
-    @cards_of_diler.each do |x| 
-      if x =~ /[A]/
-        if @points_of_diler <= 10
-          @points_of_diler += 11 
-        else 
-          @points_of_diler += 1
-        end 
-      end     
-    end
+    take_card_diler(cards)
+    take_card_diler(cards)
+    points_for_ace(self)
   end  
 
   def second_move_of_diler(cards) 
     if @points_of_diler < 17
-      self.take_card_diler(cards)
-      if @cards_of_diler.last =~ /[A]/
-        if @points_of_diler <= 10
-          @points_of_diler += 11 
-        else 
-          @points_of_diler += 1
-        end 
-      end 
+      take_card_diler(cards)
+      points_for_ace(self)
     end       
   end
 
