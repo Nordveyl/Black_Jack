@@ -27,9 +27,5 @@ class Player
   def second_move_of_player(cards) 
     take_card_player(cards)
     points_for_ace(self)
-  end
-
-  def count_of_player_cards
-    @cards_of_player.size 
   end           
 end 
