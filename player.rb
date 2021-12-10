@@ -1,3 +1,4 @@
+require_relative 'ace'
 class Player 
   attr_accessor :cards_of_player, :points_of_player
   include Ace
