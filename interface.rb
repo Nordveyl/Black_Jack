@@ -55,7 +55,7 @@ class Interface
 
   def end_of_game 
     game_table.show_all_cards_and_points
-    game_table.who_win?
+    game_table.show_who_win
     start_menu
   end                  
 end
