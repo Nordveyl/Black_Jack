@@ -38,7 +38,7 @@ class GameTable
     @diler.first_move_of_diler(@cards)
   end   
 
-  def who_win? 
+  def show_who_win 
     cuurent_bank_diler = Diler.class_variable_get(:@@bank_of_diler)
     cuurent_bank_player = Player.class_variable_get(:@@bank_of_player)
     if @player.points_of_player > 21 && @diler.points_of_diler > 21 || @diler.points_of_diler == @player.points_of_player 
