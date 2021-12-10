@@ -1,3 +1,4 @@
+require_relative 'ace'
 class Diler 
   include Ace
   attr_accessor :cards_of_diler, :points_of_diler
