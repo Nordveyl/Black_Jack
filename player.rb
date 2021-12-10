@@ -1,6 +1,6 @@
 class Player 
   attr_accessor :cards_of_player, :points_of_player
-  
+  include Ace
   def initialize 
     @cards_of_player = []
     @points_of_player = 0 
@@ -18,28 +18,14 @@ class Player
 
   def first_move_of_player(cards)
     @@bank_of_player -= 10
-    self.take_card_player(cards)
-    self.take_card_player(cards)
-    @cards_of_player.each do |x| 
-      if x =~ /[A]/
-        if @points_of_player <= 10
-          @points_of_player += 11 
-        else 
-          @points_of_player += 1
-        end 
-      end     
-    end
+    take_card_player(cards)
+    take_card_player(cards)
+    points_for_ace(self)
   end  
 
   def second_move_of_player(cards) 
-    self.take_card_player(cards)
-    if @cards_of_player.last =~ /[A]/
-      if @points_of_player <= 10
-        @points_of_player += 11 
-      else 
-        @points_of_player += 1
-      end 
-    end 
+    take_card_player(cards)
+    points_for_ace(self)
   end
 
   def count_of_player_cards
