@@ -10,8 +10,9 @@ module Ace
         end     
       end
     elsif cards.size == 3
-      cards.last =~ /[A]/
-      validate_of_ace(user, name_of_class, points) 
+      if cards.last =~ /[A]/
+        validate_of_ace(user, name_of_class, points)
+      end    
     end  
   end
 
