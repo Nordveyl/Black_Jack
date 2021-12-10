@@ -11,28 +11,6 @@ class GameTable
     @diler = Diler.new 
   end 
 
-  def player_win?
-    if @player.points_of_player <= 21 
-      if @player.points_of_player > @diler.points_of_diler || @diler.points_of_diler > 21
-        result =  true
-      end 
-    else 
-      result = false 
-    end    
-    result
-  end 
-
-  def diler_win? 
-    if @diler.points_of_diler <= 21 
-      if @player.points_of_player < @diler.points_of_diler || @player.points_of_player > 21
-        result = true 
-      end       
-    else 
-      result = false 
-    end      
-    result
-  end 
-
   def first_move 
     @player.first_move_of_player(@cards)
     @diler.first_move_of_diler(@cards)
@@ -69,5 +47,29 @@ class GameTable
 
   def show_secret_cards_diler 
     puts "Карты Дилера: #{'*'*diler.count_of_diler_cards}"
-  end      
+  end 
+
+  private 
+
+  def player_win?
+    if @player.points_of_player <= 21 
+      if @player.points_of_player > @diler.points_of_diler || @diler.points_of_diler > 21
+        result =  true
+      end 
+    else 
+      result = false 
+    end    
+    result
+  end 
+
+  def diler_win? 
+    if @diler.points_of_diler <= 21 
+      if @player.points_of_player < @diler.points_of_diler || @player.points_of_player > 21
+        result = true 
+      end       
+    else 
+      result = false 
+    end      
+    result
+  end     
 end 
