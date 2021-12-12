@@ -5,46 +5,41 @@ require_relative 'user'
 require_relative 'hand'
 require_relative 'deck'
 class GameTable
-  attr_reader :cards, :player, :diler
-  
+  attr_reader :deck, :player, :diler
+
   def initialize 
     @deck = Deck.new 
-    @player = Player.new(@deck) 
-    @diler = Diler.new(@deck)
+    @player = Player.new 
+    @diler = Diler.new
   end 
 
-  def first_move 
-    @player.first_move
-    @diler.first_move
-  end   
+  def first_move
+    @player.first_move(@deck)
+    @diler.first_move(@deck)
+  end  
 
   def who_win 
-    cuurent_bank_diler = Diler.class_variable_get(:@@bank_of_diler)
-    cuurent_bank_player = Player.class_variable_get(:@@bank_of_player)
     if @player.hand.points > 21 && @diler.hand.points > 21 || @diler.hand.points == @player.hand.points 
       result = 'Ничья'
-      Diler.class_variable_set(:@@bank_of_diler, cuurent_bank_diler +=10)
-      Player.class_variable_set(:@@bank_of_player, cuurent_bank_player +=10)
+      @diler.bank +=10
+      @player.bank += 10
     elsif self.player_win?
       result = 'Вы выиграли'
-      Player.class_variable_set(:@@bank_of_player, cuurent_bank_player +=20)
+      @player.bank += 20
     elsif self.diler_win? 
       result = 'Дилер выиграл'
-      Diler.class_variable_set(:@@bank_of_diler, cuurent_bank_diler +=20)
+      @diler.bank +=20
     end 
     result
   end 
 
-  def validate_bank 
-    if Player.class_variable_get(:@@bank_of_player) == 0
-      puts 'У Вас нет денег'
-      exit
-    elsif Diler.class_variable_get(:@@bank_of_diler) == 0
-      puts 'У Дилера нет денег'
-      exit
-    end 
+  def end 
+    @player.hand.points = 0 
+    @diler.hand.points = 0 
+    @player.hand.cards = [] 
+    @diler.hand.cards = [] 
   end 
-
+    
   private 
 
   def player_win?
