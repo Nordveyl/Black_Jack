@@ -2,7 +2,11 @@ require_relative 'game_table'
 
 class Interface 
   attr_reader :game_table
- 
+  
+  def initialize 
+    @game_table = GameTable.new
+  end 
+    
   def start_menu 
     puts 'Игра Black Jack!'
     puts "\n1 Начать игру\n0 Выйти"  
@@ -41,34 +45,42 @@ class Interface
   end 
 
   def add_card_on_second_move
-    game_table.player.second_move
+    @game_table.player.second_move(@game_table.deck)
     end_of_game 
   end 
     
   def add_card_on_first_move 
-    game_table.player.second_move
-    game_table.diler.second_move
+    @game_table.player.second_move(@game_table.deck)
+    @game_table.diler.second_move(@game_table.deck)
     end_of_game
   end 
       
   def skip 
-    game_table.diler.second_move
+    @game_table.diler.second_move(@game_table.deck)
     game_menu_2 
   end 
     
   def start_game 
-    @game_table = GameTable.new
-    game_table.validate_bank 
-    game_table.first_move
-    puts "\nВаш банк: #{Player.bank}"
+    validate_bank 
+    @game_table.first_move
+    puts "\nВаш банк: #{@game_table.player.bank}"
     show_secret_cards_diler
     show_cards_and_points_player
   end   
 
   def end_of_game 
     show_all_cards_and_points
-    puts game_table.who_win
+    puts @game_table.who_win
+    @game_table.end 
     start_menu
+  end 
+
+  def validate_bank 
+    if @game_table.player.bank == 0
+      puts 'У Вас нет денег'
+    elsif @game_table.diler.bank == 0
+      puts 'У Дилера нет денег'
+    end 
   end 
 
   def show_cards_and_points_player 
