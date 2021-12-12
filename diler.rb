@@ -1,21 +1,11 @@
 require_relative 'User'
 class Diler < User 
 
-  def initialize(deck) 
-    @@bank_of_diler ||=100 
+  def initialize 
     super
   end  
 
-  def self.bank
-    @@bank_of_diler 
-  end
-
-  def first_move 
-    @@bank_of_diler -= 10
-    super
-  end 
-
-  def second_move
+  def second_move(deck)
     if @hand.points < 17
       super
     end       
