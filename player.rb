@@ -1,31 +1,17 @@
-require_relative 'ace'
-class Player 
-  attr_accessor :cards_of_player, :points_of_player
-  include Ace
-  def initialize 
-    @cards_of_player = []
-    @points_of_player = 0 
+require_relative 'User'
+class Player < User
+  
+  def initialize(deck) 
     @@bank_of_player ||=100
-  end  
-  def self.bank_of_player
-    @@bank_of_player 
-  end   
+    super
+  end 
 
-  def take_card_player(cards)
-    @cards_of_player << cards.take_card 
-    @points_of_player += cards.all_cards.values_at(@cards_of_player.last)[0] 
-  end   
-
-
-  def first_move_of_player(cards)
+  def first_move 
     @@bank_of_player -= 10
-    take_card_player(cards)
-    take_card_player(cards)
-    points_for_ace(self)
+    super
+  end 
+    
+  def self.bank
+    @@bank_of_player 
   end  
-
-  def second_move_of_player(cards) 
-    take_card_player(cards)
-    points_for_ace(self)
-  end           
 end 
