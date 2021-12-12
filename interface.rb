@@ -15,49 +15,76 @@ class Interface
   end 
   
   private 
-  
+
   def game_menu_1 
-    @game_table = GameTable.new
-    if Player.class_variable_get(:@@bank_of_player) == 0
-      puts 'У Вас нет денег'
-      exit 
-    elsif Diler.class_variable_get(:@@bank_of_diler) == 0
-      puts 'У Дилера нет денег'
-      exit 
-    end   
-    game_table.first_move
-    puts "\nВаш банк: #{Player.bank_of_player}"
-    game_table.show_secret_cards_diler
-    game_table.show_cards_and_points_player 
+    start_game
     puts " 1 Пропустить\n 2 Добавить карту\n 3 Открыть карты"
     point = gets.chomp.to_i
     if point == 1 
-      game_table.diler.second_move_of_diler(game_table.cards)
-      game_menu_2 
+      skip
     elsif point == 2 
-      game_table.player.second_move_of_player(game_table.cards)
-      game_table.diler.second_move_of_diler(game_table.cards)
-      end_of_game      
+      add_card_on_first_move    
     elsif point == 3 
       end_of_game      
     end 
   end
 
   def game_menu_2
-    game_table.show_secret_cards_diler
+    show_secret_cards_diler
     puts "1 Добавить карту\n 2 Открыть карты"
     point = gets.chomp.to_i 
     if point == 1
-      game_table.player.second_move_of_player(game_table.cards)
-      end_of_game  
+      add_card_on_second_move  
     elsif point == 2 
       end_of_game        
     end
   end 
 
+  def add_card_on_second_move
+    game_table.player.second_move
+    end_of_game 
+  end 
+    
+  def add_card_on_first_move 
+    game_table.player.second_move
+    game_table.diler.second_move
+    end_of_game
+  end 
+      
+  def skip 
+    game_table.diler.second_move
+    game_menu_2 
+  end 
+    
+  def start_game 
+    @game_table = GameTable.new
+    game_table.validate_bank 
+    game_table.first_move
+    puts "\nВаш банк: #{Player.bank}"
+    show_secret_cards_diler
+    show_cards_and_points_player
+  end   
+
   def end_of_game 
-    game_table.show_all_cards_and_points
-    game_table.show_who_win
+    show_all_cards_and_points
+    puts game_table.who_win
     start_menu
-  end                  
-end
+  end 
+
+  def show_cards_and_points_player 
+    puts "Ваши карты: #{@game_table.player.hand.cards} и очки #{@game_table.player.hand.points}" 
+  end 
+
+  def show_cards_and_points_diler
+    puts "Карты Дилера: #{@game_table.diler.hand.cards} и очки #{@game_table.diler.hand.points}"
+  end 
+  
+  def show_all_cards_and_points
+    show_cards_and_points_player
+    show_cards_and_points_diler 
+  end  
+
+  def show_secret_cards_diler 
+    puts "Карты Дилера: #{'*'*@game_table.diler.count_of_diler_cards}"
+  end                   
+end   
