@@ -1,39 +1,27 @@
-require_relative 'ace'
-class Diler 
-  include Ace
-  attr_accessor :cards_of_diler, :points_of_diler
-  
-  def initialize 
-    @cards_of_diler = []
-    @points_of_diler = 0 
-    @@bank_of_diler ||=100
+require_relative 'User'
+class Diler < User 
+
+  def initialize(deck) 
+    @@bank_of_diler ||=100 
+    super
   end  
 
-  def self.bank_of_diler
+  def self.bank
     @@bank_of_diler 
-  end   
+  end
 
-  def take_card_diler(cards)
-    @cards_of_diler << cards.take_card 
-    @points_of_diler += cards.all_cards.values_at(@cards_of_diler.last)[0] 
-  end   
-
-
-  def first_move_of_diler(cards)
+  def first_move 
     @@bank_of_diler -= 10
-    take_card_diler(cards)
-    take_card_diler(cards)
-    points_for_ace(self)
-  end  
+    super
+  end 
 
-  def second_move_of_diler(cards) 
-    if @points_of_diler < 17
-      take_card_diler(cards)
-      points_for_ace(self)
+  def second_move
+    if @hand.points < 17
+      super
     end       
   end
 
   def count_of_diler_cards
-    @cards_of_diler.size 
+    @hand.cards.size 
   end   
 end 
